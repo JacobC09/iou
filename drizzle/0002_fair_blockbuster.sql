@@ -1,0 +1,1 @@
+ALTER TABLE "profiles" ALTER COLUMN "linked_user_id" DROP NOT NULL;
