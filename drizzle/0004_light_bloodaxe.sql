@@ -1,0 +1,1 @@
+ALTER TABLE "contacts" ALTER COLUMN "date_accessed" SET NOT NULL;

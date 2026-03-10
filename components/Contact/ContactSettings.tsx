@@ -12,7 +12,7 @@ import { updateContactSettings } from "@/lib/server";
 import { useRouter } from "next/navigation";
 import { contactTable } from "@/lib/schema";
 
-export default function ProfileSettings({ contact, ...props }: {
+export default function ContactSettings({ contact, ...props }: {
     contact: typeof contactTable.$inferSelect,
     color: string,
     email: string | null,
@@ -20,8 +20,8 @@ export default function ProfileSettings({ contact, ...props }: {
     const router = useRouter();
     const [name, setName] = useState(contact.name);
     const [color, setColor] = useState(props.color);
-    const [email, setEmail] = useState(props.email);
     const [saving, setSaving] = useState(false);
+    // const [email, setEmail] = useState(props.email);
 
     const update = async () => {
         setSaving(true);
@@ -38,7 +38,7 @@ export default function ProfileSettings({ contact, ...props }: {
                     <Label className="text-xs text-slate-400">Display Name</Label>
                     <Input value={name} onChange={e => { setName(e.target.value); }} className="rounded-xl h-9 text-sm" />
                 </div>
-                <div className="space-y-1">
+                {/* <div className="space-y-1">
                     <Label className="text-xs text-slate-400">Email</Label>
                     {email == null ? (
                             <Input disabled className="rounded-xl h-9 text-sm text-slate-400" />
@@ -46,7 +46,7 @@ export default function ProfileSettings({ contact, ...props }: {
                             <Input value={email} onChange={e => { setEmail(e.target.value) }} disabled className="rounded-xl h-9 text-sm text-slate-400" />
                         )
                     }
-                </div>
+                </div> */}
             </div>
             <div className="space-y-2">
                 <Label className="text-xs text-slate-400">Avatar Color</Label>
@@ -63,9 +63,8 @@ export default function ProfileSettings({ contact, ...props }: {
             </div>
             <AnimatePresence>
                 <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-                    <Button onClick={update} disabled={saving} className="w-full h-9 rounded-xl bg-slate-900 hover:bg-slate-800 text-sm">
-                        {saving ? <Loader2 className="w-3.5 h-3.5 mr-2 animate-spin" /> : null}
-                        Save Profile
+                    <Button onClick={update} disabled={saving} className="w-full h-10 rounded-xl font-semibold text-sm transition-all">
+                        {saving ? <Loader2 className="w-3.5 h-3.5 mr-2 animate-spin" /> : "Save Profile"}
                     </Button>
                 </motion.div>
             </AnimatePresence>

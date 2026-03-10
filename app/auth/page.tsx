@@ -1,4 +1,4 @@
-import AuthForm from "@/components/App/AuthForm";
+import AuthForm from "@/components/Auth/AuthForm";
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 

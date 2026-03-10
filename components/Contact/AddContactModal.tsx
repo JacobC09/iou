@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2 } from "lucide-react";
 import { createContact } from "@/lib/server"
-import { useAppContext } from "./AppContext"; 
+import { useAppContext } from "../App/AppContext"; 
 import { useRouter } from "next/navigation";
 
 

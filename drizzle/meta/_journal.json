@@ -22,6 +22,27 @@
       "when": 1773003538935,
       "tag": "0002_fair_blockbuster",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1773094173217,
+      "tag": "0003_special_ulik",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1773094428441,
+      "tag": "0004_light_bloodaxe",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1773097432574,
+      "tag": "0005_chunky_zuras",
+      "breakpoints": true
     }
   ]
 }

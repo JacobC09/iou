@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import * as pg from "drizzle-orm/pg-core"
 
 export const userTable = pg.pgTable("users", {
@@ -27,6 +28,8 @@ export const contactTable = pg.pgTable("contacts", {
     link:           pg.integer("link").notNull().references(() => profileTable.id),
     name:           pg.text("name").notNull(),
     color:          pg.text("color"),
+    dateAccessed:   pg.timestamp("date_accessed").notNull().default(sql`now()`),
+    real:           pg.boolean(),
 })
 
 export const transactionTable = pg.pgTable("transactions", {
@@ -36,5 +39,5 @@ export const transactionTable = pg.pgTable("transactions", {
     type:           pg.text("type").notNull(), // owes | paid
     amount:         pg.integer("amount").notNull(), // cents
     description:    pg.text("description"),
-    created_at:     pg.timestamp("created_at").defaultNow(),
+    created_at:     pg.timestamp("created_at").default(sql`now()`),
 });

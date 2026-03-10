@@ -12,10 +12,10 @@ import { addTransaction } from "@/lib/server";
 import { useRouter } from "next/navigation";
 
 const TYPES = [
-    { id: "they_owe", label: "They owe me", sublabel: "Liability", color: "text-indigo-600", bg: "bg-indigo-50", border: "border-indigo-300" },
+    { id: "they_owe", label: "They owe me", sublabel: "Liability", color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-300" },
     { id: "i_owe", label: "I owe them", sublabel: "Liability", color: "text-orange-600", bg: "bg-orange-50", border: "border-orange-300" },
     { id: "they_paid", label: "They paid me", sublabel: "Payment", color: "text-fuchsia-600", bg: "bg-fuchsia-50", border: "border-fuchsia-300" },
-    { id: "i_paid", label: "I paid them", sublabel: "Payment", color: "text-emerald-700", bg: "bg-emerald-50", border: "border-emerald-300" },
+    { id: "i_paid", label: "I paid them", sublabel: "Payment", color: "text-indigo-700", bg: "bg-indigo-50", border: "border-indigo-300" },
 ]
 
 export default function AddTransactionForm({ contact }: {
@@ -34,36 +34,10 @@ export default function AddTransactionForm({ contact }: {
         setSubmitting(true);
         setSubmitting(false);
 
-        let from: number;
-        let to: number;
-        let type: string;
-
-        switch (transactionType) {
-            case "they_owe": {
-                from = contact.link;
-                to = profile.id;
-                type = "owes";
-                break;
-            } 
-            case "i_owe": {
-                from = profile.id;
-                to = contact.link;
-                type = "owes";
-                break;
-            }
-            case "they_paid": {
-                from = contact.link;
-                to = profile.id;
-                type = "paid";
-                break;
-            } 
-            case "i_paid": {
-                from = profile.id;
-                to = contact.link;
-                type = "paid";
-                break;
-            }
-        }
+        const me = transactionType.charAt(0) == "i";
+        const type = transactionType.endsWith("owe") ? "owes" : "paid";
+        const from = me ? contact.link : profile.id;
+        const to = me ? profile.id : contact.link;
 
         const cents: number = Math.round(parseFloat(amount) * 100);
         await addTransaction(from, to, type, cents, desc);

@@ -66,5 +66,5 @@ export function getBalance(id: number, transactions: typeof transactionTable.$in
         }
     }
 
-    return { net: totalOwed - totalIOwe, totalOwed, totalIOwe };
+    return { net: totalIOwe - totalOwed , totalOwed, totalIOwe };
 }

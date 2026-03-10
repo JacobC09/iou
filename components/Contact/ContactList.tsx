@@ -5,16 +5,17 @@ import Contact from "./Contact";
 import { ArrowUpDown, ChevronDown, ChevronUp, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { useAppContext } from "./AppContext"; 
-import { getBalance, getRelatedTransactions } from "@/lib/utils";
+import { useAppContext } from "@/components/App/AppContext"; 
+import { cn, getBalance, getRelatedTransactions } from "@/lib/utils";
 
-type SortMethod = "net" | "name" | "frequency" | "recent";
+
+type SortMethod =  "recent" | "balance" | "alpha";
 type SortDirection = "desc" | "asc";
 
-export default function ContactView() {
-    const { contacts, transactions } = useAppContext();
+export default function ContactList() {
+    const { contacts: dbContacts, transactions } = useAppContext();
     const [search, setSearch] = useState("");
-    const [sortMethod, setSortMethod] = useState<SortMethod>("net");
+    const [sortMethod, setSortMethod] = useState<SortMethod>("recent");
     const [sortDir, setSortDir] = useState<SortDirection>("desc");
 
     const toggleSort = (field: SortMethod) => {
@@ -28,11 +29,13 @@ export default function ContactView() {
 
     const SortBtn = ({ field, label }: { field: SortMethod, label: string }) => {
         const active = sortMethod == field;
-
         return (
             <button
                 onClick={() => toggleSort(field)}
-                className={`flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg transition-colors font-medium ${active ? "bg-slate-900 text-white" : "bg-white text-slate-500 hover:bg-slate-100 border border-slate-200"}`}
+                className={cn(
+                    "flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg transition-colors font-medium",
+                    active ? "bg-slate-900 text-white" : "bg-white text-slate-500 hover:bg-slate-100 border border-slate-200"
+                )}
             >
                 {label}
                 {active ? (
@@ -43,6 +46,24 @@ export default function ContactView() {
         );
     };
 
+    const [contacts, _] = useState(dbContacts.map((contact) => ({
+        net: getBalance(contact.owner, getRelatedTransactions(contact.owner, contact.link, transactions)).net,
+        ...contact
+    })));
+
+    let sorted = Array.from({ length: contacts.length }, (_, index) => index);
+    if (sortMethod == "balance") {
+        sorted.sort((a, b) => contacts[b].net - contacts[a].net)
+    } else if (sortMethod == "recent") {
+        sorted.sort((a, b) => contacts[b].dateAccessed.getTime() - contacts[a].dateAccessed.getTime())
+    } else if (sortMethod == "alpha") {
+        sorted.sort((a, b) => contacts[a].name.localeCompare(contacts[b].name))
+    }
+
+    if (sortDir == "asc") {
+        sorted.reverse();
+    }
+
     return (
         <>
             <div className="flex flex-col sm:flex-row gap-3 mb-5">
@@ -52,27 +73,25 @@ export default function ContactView() {
                 </div>
                 <div className="flex gap-2 shrink-0 overflow-x-auto items-center">
                     <SortBtn field="recent" label="Recent" />
-                    <SortBtn field="net" label="Amount" />
-                    <SortBtn field="name" label="A-Z" />
-                    <SortBtn field="frequency" label="Freq" />
+                    <SortBtn field="balance" label="Balance" />
+                    <SortBtn field="alpha" label="A-Z" />
                 </div>
             </div>
 
             <div className="space-y-3">
-                <AnimatePresence>
+                <AnimatePresence initial={false}>
                     {contacts.length === 0 ? (
                         <div className="text-center py-16">
                             <p className="text-slate-400 text-sm">
-                                "No debts yet — you're all clear! 🎉
+                                No debts yet :D
                             </p>
                         </div>
                     ) : (
-                        contacts.map((contact, key) => {
-                            const { net } = getBalance(contact.owner, getRelatedTransactions(contact.owner, contact.link, transactions))
-                            return <Contact key={key} contact={contact} balance={net} />
+                        sorted.map((index) => {
+                            const contact = contacts[index];
+                            return <Contact key={contact.id} contact={contact} balance={contact.net} />
                         })
-                    )
-                    }
+                    )}
                 </AnimatePresence>
             </div>
         </>

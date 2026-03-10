@@ -1,30 +1,38 @@
 "use client";
 
 import { contactTable } from "@/lib/schema";
+import { updateRecent } from "@/lib/server";
 import { colorFromStr, getInitials } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { redirect } from "next/navigation"
+import { useRouter } from "next/navigation";
 
 export default function Contact({ contact, balance }: {
     contact: typeof contactTable.$inferSelect,
     balance: number,
 }) {
+    const router = useRouter();
     const lastUpdated = "Mar 5, 2026";
     const positive = balance >= 0;
     const color = contact.color ?? colorFromStr(contact.name)
     const initials = getInitials(contact.name)
-
     const textColor = balance == 0 ? "slate-400" : (balance > 0 ? "emerald-600" : "orange-600")
     
+    const onClick = async () => {
+        await updateRecent(contact.id);
+        router.refresh();
+        redirect(`/app/contact/${encodeURIComponent(contact.id)}`);
+    }
+
     return (
         <motion.div
+            layout
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            layout
             className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-            onClick={() => redirect(`/app/profile/${encodeURIComponent(contact.id)}`)}
+            onClick={onClick}
         >
             <div className="flex items-center gap-3 px-4 py-4">
                 <div

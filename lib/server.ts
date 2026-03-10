@@ -1,8 +1,8 @@
 "use server";
 
-import { eq } from "drizzle-orm";
+import { eq, or } from "drizzle-orm";
 import { db } from "./db";
-import { contactTable, profileTable, transactionTable } from "./schema";
+import { contactTable, profileTable, transactionTable, userTable } from "./schema";
 import { colorFromStr } from "./utils";
 
 export async function createProfile(
@@ -27,7 +27,8 @@ export async function createContact(
         owner: profileId,
         link: link.id,
         name: name,
-        color: colorFromStr(name)
+        color: colorFromStr(name),
+        real: false,
     }).returning();
 
     return contact;
@@ -50,8 +51,49 @@ export async function addTransaction(
     amount: number, 
     description: string
 ) {
-    console.log(fromProfile, toProfile, type, amount, description)
     await db.insert(transactionTable).values({
         fromProfile, toProfile, type, amount, description
-    })
+    });
+}
+
+export async function updateRecent(id: number) {
+    await db.update(contactTable)
+        .set({ dateAccessed: new Date() })
+        .where(eq(contactTable.id, id));
+}
+
+export async function deleteContact(contact: typeof contactTable.$inferSelect) {
+    const linkedProfile = await db.query.profileTable.findFirst({
+        where: eq(profileTable.id, contact.link)
+    });
+
+    if (!linkedProfile) return;
+
+    if (linkedProfile.linkedUserId == null) {
+        await db.delete(transactionTable)
+            .where(or(
+                eq(transactionTable.fromProfile, linkedProfile.id),
+                eq(transactionTable.toProfile, linkedProfile.id)
+            ));
+
+        await db.delete(contactTable).where(eq(contactTable.id, contact.id));
+        await db.delete(profileTable).where(eq(profileTable.id, linkedProfile.id));
+    } else {
+        // linked
+    }
+}
+
+export async function updateUser(id: string, name: string, email: string): Promise<boolean> {
+    try {
+        await db.update(userTable).set({
+            name, email
+        }).where(eq(userTable.id, id));
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+export async function deleteTransaction(id: number) {
+    await db.delete(transactionTable).where(eq(transactionTable.id, id));
 }
