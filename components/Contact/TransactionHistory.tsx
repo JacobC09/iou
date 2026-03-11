@@ -46,6 +46,8 @@ export default function TransactionHistory({ contact, transactions }: {
         );
     };
 
+
+
     return (
         <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-5">
             <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
@@ -73,7 +75,7 @@ export default function TransactionHistory({ contact, transactions }: {
                     {transactions.length === 0 ? (
                         <p className="text-slate-400 text-sm text-center py-8">No transactions yet</p>
                     ) : (
-                        transactions.map(t => {
+                        transactions.toReversed().map(t => {
                             const type = getTransactionType(contact.link, t);
                             const isPayment = ["i_paid", "they_paid"].includes(type);
                             const positive = ["i_paid", "they_owe"].includes(type);

@@ -55,9 +55,9 @@ export function getBalance(id: number, transactions: typeof transactionTable.$in
             }
         } else if (t.type == "paid") {
             if (t.fromProfile == id) {
-                totalOwed -= dollars;
+                totalOwed += dollars;
             } else {
-                totalIOwe -= dollars;
+                totalIOwe += dollars;
             }
         }
     }
