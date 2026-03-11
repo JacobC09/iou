@@ -46,8 +46,6 @@ export default function TransactionHistory({ contact, transactions }: {
         );
     };
 
-
-
     return (
         <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-5">
             <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
