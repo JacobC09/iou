@@ -1,12 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { Plus } from "lucide-react";
-import AddFriendModal from "../Contact/AddContactModal";
-import Counter from "./Counter";
 import { getBalance } from "@/lib/utils";
 import { useAppContext } from "./AppContext";
+import Counter from "./Counter";
 
 
 export default function HeroHeader() {
@@ -14,11 +11,9 @@ export default function HeroHeader() {
 
     const { net, totalOwed, totalIOwe } = getBalance(profile!.id, transactions)
     const inTheGreen = net >= 0;
-
-    const [addContactOpen, setAddContactOpen] = useState(false);
     
     return (
-        <div className="mb-6">
+        <div className="mb-3">
             <div className="relative overflow-hidden rounded-3xl bg-slate-900 px-6 pt-8 pb-6">
                 <div
                     className="absolute -top-16 -right-16 w-56 h-56 rounded-full opacity-30 blur-3xl"
@@ -66,24 +61,6 @@ export default function HeroHeader() {
                     </div>
                 </div>
             </div>
-
-            <motion.button
-                className="mt-3 w-full flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-800 font-semibold py-3 rounded-2xl shadow-sm hover:bg-slate-50 hover:shadow-md transition-all text-sm"
-                onClick={() => setAddContactOpen(true)}
-                whileTap={{ scale: 0.98 }}
-
-            >
-                <div className="w-5 h-5 rounded-full bg-slate-900 flex items-center justify-center">
-                    <Plus className="w-3 h-3 text-white" />
-                </div>
-                Add Contact
-            </motion.button>
-
-            <AddFriendModal 
-                open={addContactOpen}
-                onClose={() => setAddContactOpen(false)}
-            />
-
         </div>
     );
 }

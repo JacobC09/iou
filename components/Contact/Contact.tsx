@@ -2,7 +2,7 @@
 
 import { contactTable } from "@/lib/schema";
 import { updateRecent } from "@/lib/server";
-import { colorFromStr, getInitials } from "@/lib/utils";
+import { getInitials } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { redirect } from "next/navigation"
@@ -15,7 +15,7 @@ export default function Contact({ contact, balance }: {
     const router = useRouter();
     const lastUpdated = "Mar 5, 2026";
     const positive = balance >= 0;
-    const color = contact.color ?? colorFromStr(contact.name)
+    const color = contact.color ?? "#ffffff"
     const initials = getInitials(contact.name)
     const textColor = balance == 0 ? "slate-400" : (balance > 0 ? "emerald-600" : "orange-600")
     
@@ -27,7 +27,7 @@ export default function Contact({ contact, balance }: {
 
     return (
         <motion.div
-            layout
+            layout="position"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}

@@ -20,10 +20,6 @@ export function getTransactionType(relativeTo: number, t: typeof transactionTabl
     }
 }
 
-export function colorFromStr(s: string) {
-    return COLORS[[...s].reduce((a,c)=>a*31+c.charCodeAt(0)>>>0,0) % COLORS.length]
-}
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }

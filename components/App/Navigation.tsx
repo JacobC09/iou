@@ -23,8 +23,7 @@ export default function Navigation() {
                         <BarChart2 className="w-4 h-4 text-slate-500" />
                     </button>
                 </a> */}
-                {
-                    path != settingsPath &&
+                {path != settingsPath &&
                     <a href={settingsPath}>
                         <div className="flex items-center gap-4 text-sm font-medium text-slate-400">
                             Settings

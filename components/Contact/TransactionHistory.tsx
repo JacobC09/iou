@@ -53,7 +53,7 @@ export default function TransactionHistory({ contact, transactions }: {
                     History <span className="text-slate-300 font-normal normal-case">({transactions.length})</span>
                 </h2>
                 <div className="flex gap-1.5 flex-wrap">
-                    {["all", "liability", "payment"].map(f => (
+                    {/* {["all", "liability", "payment"].map(f => (
                         <button
                             key={f}
                             onClick={() => setFilterType(f as FilterType)}
@@ -65,7 +65,7 @@ export default function TransactionHistory({ contact, transactions }: {
                     <div className="w-px bg-slate-100 mx-0.5" />
                     <SortBtn field="date" label="Date" />
                     <SortBtn field="amount" label="Amount" />
-                    <SortBtn field="type" label="Type" />
+                    <SortBtn field="type" label="Type" /> */}
                 </div>
             </div>
             <div className="space-y-2">

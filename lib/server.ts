@@ -3,11 +3,11 @@
 import { eq, or } from "drizzle-orm";
 import { db } from "./db";
 import { contactTable, profileTable, transactionTable, userTable } from "./schema";
-import { colorFromStr } from "./utils";
+import { COLORS } from "./utils";
 
 export async function createProfile(
+    userId: string | null,
     name: string, 
-    userId: string | null
 ): Promise<typeof profileTable.$inferSelect> {
     const [profile] = await db.insert(profileTable).values({
         linkedUserId: userId,
@@ -21,13 +21,12 @@ export async function createContact(
     profileId: number, 
     name: string
 ): Promise<typeof contactTable.$inferSelect> {
-    const link = await createProfile(name, null);
-    
+    const link = await createProfile(null, name);
     const [contact] = await db.insert(contactTable).values({
         owner: profileId,
         link: link.id,
         name: name,
-        color: colorFromStr(name),
+        color: COLORS[Math.round(Math.random() * COLORS.length)],
         real: false,
     }).returning();
 

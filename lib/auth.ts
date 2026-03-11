@@ -21,7 +21,7 @@ function hashToken(token: string) {
 export async function userExists(email: string) {
     let [user] = await db.select()
         .from(userTable)
-        .where(eq(userTable.email, email.toLowerCase()))
+        .where(eq(userTable.email, email))
         .limit(1)
 
     return user !== undefined
@@ -72,6 +72,7 @@ export async function signup(email: string, name: string, password: string): Pro
     error: string;
     affected: string[]
 }> {
+    console.log(email, name, password);
     try {
         if (!email || !password) return { success: false, affected: ["email", "password"], error: "Email and password are required" }
         if (password.length < 8) return { success: false, affected: ["password"], error: "Password must be at least 8 characters" }
@@ -96,12 +97,12 @@ export async function signup(email: string, name: string, password: string): Pro
         if (!user) return { success: false, affected: [], error: "Failed to create account." }
 
         await createProfile(user.id, name);
-        await createSession(user.id)
+        await createSession(user.id);
 
         return { success: true }
 
     } catch (err) {
-        console.error("Signup error:", err)
+        console.error("Signup error:", err);
         return { success: false, affected: [], error: "Something went wrong. Please try again." }
     }
 }

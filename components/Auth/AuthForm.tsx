@@ -25,6 +25,7 @@ const PasswordInputField = (props: React.ComponentProps<"input">) => {
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                tabIndex={-1}
             >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
@@ -64,7 +65,7 @@ export default function AuthForm() {
                 return;
             }
 
-            const valid = await userExists(email as string);
+            const valid = await userExists((email as string).toLowerCase());
             setHasAccount(valid);
         } else if (hasAccount === false) {
             let name = data.get("name");
@@ -78,21 +79,20 @@ export default function AuthForm() {
                 return;
             }
 
-            const res = await signup(email as string, name as string, password as string);
+            const res = await signup((email as string).toLowerCase(), name as string, password as string);
 
             if (!res.success) {
                 setError(res.error);
             }
         } else if (hasAccount) {
             let password = data.get("password");
-            const res = await login(email as string, password as string);
+            const res = await login((email as string).toLowerCase(), password as string);
             if (!res.success) {
                 setError(res.error);
             }
         }
 
         setLoading(false);
-        setFormValid(false);
     }
 
     return (

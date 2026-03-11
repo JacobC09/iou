@@ -1,5 +1,5 @@
 {
-  "id": "23981e7c-d93f-4396-887f-ba99f4e73020",
+  "id": "7e0521b3-2bcf-4d74-9759-ab4b8b8709bc",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -35,6 +35,19 @@
         "color": {
           "name": "color",
           "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "date_accessed": {
+          "name": "date_accessed",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "real": {
+          "name": "real",
+          "type": "boolean",
           "primaryKey": false,
           "notNull": false
         }
@@ -88,7 +101,7 @@
           "name": "linked_user_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "name": {
           "name": "name",
@@ -201,7 +214,7 @@
         },
         "amount": {
           "name": "amount",
-          "type": "numeric(10, 2)",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },

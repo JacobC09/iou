@@ -1,1 +1,0 @@
-ALTER TABLE "contacts" ADD COLUMN "date_accessed" timestamp DEFAULT now();

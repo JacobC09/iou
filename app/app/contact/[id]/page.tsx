@@ -7,7 +7,7 @@ import { DeleteContactModal } from "@/components/Contact/DeleteContactModal";
 import ContactSettings from "@/components/Contact/ContactSettings";
 import TransactionHistory from "@/components/Contact/TransactionHistory";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { colorFromStr, getBalance, getInitials, getRelatedTransactions } from "@/lib/utils";
+import { getBalance, getInitials, getRelatedTransactions } from "@/lib/utils";
 import { ArrowLeft, ChevronDown } from "lucide-react";
 import { redirect, useRouter } from "next/navigation";
 import { use } from "react";
@@ -28,7 +28,7 @@ export default function Profile({ params }: {
     const related = getRelatedTransactions(contact.owner, contact.link, transactions);
     const { net, totalOwed, totalIOwe } = getBalance(contact.owner, related);
     const initials = getInitials(contact.name);
-    const color = contact.color ?? colorFromStr(contact.name);
+    const color = contact.color ?? "#ffffff";
     const email = null;
     const isPositive = net >= 0;
 

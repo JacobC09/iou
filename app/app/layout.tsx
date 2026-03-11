@@ -19,25 +19,23 @@ export default async function Layout({
 
     const profile = await db.query.profileTable.findFirst({
         where: eq(profileTable.linkedUserId, user.id)
-    })
+    });
 
-    if (!profile) {
-        redirect("/auth")
-    }
+    if (!profile) redirect("/auth");
 
-    const transactions = await db.select()
-        .from(transactionTable)
-        .where(
-            or(
-                eq(transactionTable.fromProfile, profile.id),
-                eq(transactionTable.toProfile, profile.id)
-            )
-        );
-
-
-    const contacts = await db.select()
-        .from(contactTable)
-        .where(eq(contactTable.owner, profile.id));
+    const [transactions, contacts] = await Promise.all([
+        db.select()
+            .from(transactionTable)
+            .where(
+                or(
+                    eq(transactionTable.fromProfile, profile.id),
+                    eq(transactionTable.toProfile, profile.id)
+                )
+            ),
+        db.select()
+            .from(contactTable)
+            .where(eq(contactTable.owner, profile.id))
+    ]);
 
     return (
         <AppContextProvider data={{ user, profile, transactions, contacts }}>

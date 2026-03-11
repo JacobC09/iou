@@ -3,12 +3,14 @@ CREATE TABLE "contacts" (
 	"owner" integer NOT NULL,
 	"link" integer NOT NULL,
 	"name" text NOT NULL,
-	"color" text
+	"color" text,
+	"date_accessed" timestamp DEFAULT now() NOT NULL,
+	"real" boolean
 );
 --> statement-breakpoint
 CREATE TABLE "profiles" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"linked_user_id" uuid NOT NULL,
+	"linked_user_id" uuid,
 	"name" text NOT NULL
 );
 --> statement-breakpoint
@@ -24,7 +26,7 @@ CREATE TABLE "transactions" (
 	"from_profile_id" integer NOT NULL,
 	"to_profile_id" integer NOT NULL,
 	"type" text NOT NULL,
-	"amount" numeric(10, 2) NOT NULL,
+	"amount" integer NOT NULL,
 	"description" text,
 	"created_at" timestamp DEFAULT now()
 );
