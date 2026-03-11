@@ -5,7 +5,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
     title: "Ledger",
-    description: "An accounting tracking application",
+    description: "A debt tracking application",
 };
 
 export default async function RootLayout({
