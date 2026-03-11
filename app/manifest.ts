@@ -5,9 +5,9 @@ export default function manifest(): MetadataRoute.Manifest {
         name: "Ledger",
         short_name: "Ledger",
         description: "A debt tracking application",
-        start_url: "/",
+        start_url: "/app/",
         display: "standalone",
-        background_color: "#ffffff",
+        background_color: "#F8FAFC",
         theme_color: "#6366f1",
         icons: [
             {
