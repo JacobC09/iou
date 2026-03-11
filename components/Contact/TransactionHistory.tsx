@@ -127,7 +127,7 @@ export default function TransactionHistory({ contact, transactions }: {
                                                 type == "they_paid" && "text-fuchsia-400",
                                                 type == "i_owe" && "text-orange-400",
                                                 type == "they_owe" && "text-emerald-400",
-                                            )}>{from}</span> <span className="text-slate-500">{isPayment ? "paid" : "owes"}</span> {to}
+                                            )}>{from}</span> <span className="text-slate-500">{isPayment ? "paid" : (from == "You" ? "owe" : "owes")}</span> {to}
                                         </p>
                                         {<p className="text-md text-slate-800 font-medium truncate">{t.description}</p>}
                                         <div className="flex gap-3 items-center text-xs text-slate-400">
