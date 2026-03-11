@@ -29,6 +29,7 @@ export const contactTable = pg.pgTable("contacts", {
     name:           pg.text("name").notNull(),
     color:          pg.text("color"),
     dateAccessed:   pg.timestamp("date_accessed").notNull().default(sql`now()`),
+    lastUpdated:    pg.timestamp("last_updated").notNull().default(sql`now()`),
     real:           pg.boolean(),
 })
 
@@ -39,5 +40,5 @@ export const transactionTable = pg.pgTable("transactions", {
     type:           pg.text("type").notNull(), // owes | paid
     amount:         pg.integer("amount").notNull(), // cents
     description:    pg.text("description"),
-    created_at:     pg.timestamp("created_at").default(sql`now()`),
+    created_at:     pg.timestamp("created_at").notNull().default(sql`now()`),
 });

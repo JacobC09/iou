@@ -8,6 +8,13 @@
       "when": 1773104872285,
       "tag": "0000_handy_justice",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1773244010882,
+      "tag": "0001_greedy_wallop",
+      "breakpoints": true
     }
   ]
 }

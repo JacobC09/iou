@@ -131,7 +131,7 @@ export default function TransactionHistory({ contact, transactions }: {
                                         </p>
                                         {<p className="text-md text-slate-800 font-medium truncate">{t.description}</p>}
                                         <div className="flex gap-3 items-center text-xs text-slate-400">
-                                            {format(new Date(t.created_at!), "MMM d, yyyy")}
+                                            {format(t.created_at, "MMM d, yyyy")}
                                             {contact.real &&
                                                 <span className="ml-1.5 px-1.5 py-0.5 rounded-md text-xs font-medium bg-slate-100 text-slate-400">
                                                     Added by <span className="font-bold text-slate-500">You</span>

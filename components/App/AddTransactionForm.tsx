@@ -8,7 +8,7 @@ import { Button } from "../ui/button";
 import { Check, Loader2 } from "lucide-react";
 import { contactTable } from "@/lib/schema";
 import { useAppContext } from "./AppContext";
-import { addTransaction } from "@/lib/server";
+import { addTransaction, updateLastUpdated } from "@/lib/server";
 import { useRouter } from "next/navigation";
 
 const TYPES = [
@@ -41,6 +41,7 @@ export default function AddTransactionForm({ contact }: {
 
         const cents: number = Math.round(parseFloat(amount) * 100);
         await addTransaction(from, to, type, cents, desc);
+        await updateLastUpdated(contact.id);
         router.refresh();
         setSuccessful(true);
         setTimeout(() => setSuccessful(false), 800)

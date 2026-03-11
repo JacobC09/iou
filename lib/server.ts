@@ -61,6 +61,12 @@ export async function updateRecent(id: number) {
         .where(eq(contactTable.id, id));
 }
 
+export async function updateLastUpdated(id: number) {
+    await db.update(contactTable)
+        .set({ lastUpdated: new Date() })
+        .where(eq(contactTable.id, id));
+}
+
 export async function deleteContact(contact: typeof contactTable.$inferSelect) {
     const linkedProfile = await db.query.profileTable.findFirst({
         where: eq(profileTable.id, contact.link)

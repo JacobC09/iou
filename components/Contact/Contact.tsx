@@ -3,6 +3,7 @@
 import { contactTable } from "@/lib/schema";
 import { updateRecent } from "@/lib/server";
 import { getInitials } from "@/lib/utils";
+import { format } from "date-fns";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { redirect } from "next/navigation"
@@ -13,7 +14,6 @@ export default function Contact({ contact, balance }: {
     balance: number,
 }) {
     const router = useRouter();
-    const lastUpdated = "Mar 5, 2026";
     const positive = balance >= 0;
     const color = contact.color ?? "#ffffff"
     const initials = getInitials(contact.name)
@@ -44,7 +44,7 @@ export default function Contact({ contact, balance }: {
 
                 <div className="flex-1 min-w-0">
                     <p className="font-semibold text-lg text-slate-900">{contact.name}</p>
-                    <p className="text-xs text-slate-300 mt-0.5">{lastUpdated}</p>
+                    <p className="text-xs text-slate-300 mt-0.5">{format(contact.lastUpdated, "MMM d, yyyy")}</p>
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
