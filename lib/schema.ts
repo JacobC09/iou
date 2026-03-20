@@ -42,3 +42,9 @@ export const transactionTable = pg.pgTable("transactions", {
     description:    pg.text("description"),
     created_at:     pg.timestamp("created_at").notNull().default(sql`now()`),
 });
+
+export type User = typeof userTable.$inferSelect;
+export type Session = typeof sessionTable.$inferSelect;
+export type Profile = typeof profileTable.$inferSelect;
+export type Contact = typeof contactTable.$inferSelect;
+export type Transaction = typeof transactionTable.$inferSelect;

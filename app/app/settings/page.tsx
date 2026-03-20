@@ -11,6 +11,7 @@ import { getInitials } from "@/lib/utils";
 import { logout } from "@/lib/auth";
 import { updateUser } from "@/lib/server";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Account() {
     const { user } = useAppContext();
@@ -29,10 +30,10 @@ export default function Account() {
 
     return (
         <div className="space-y-5 pb-[10vh]">
-            <a href="/app" className="flex items-center gap-2 text-slate-500 hover:text-slate-800 text-sm font-medium transition-colors">
+            <Link href="/app" className="flex items-center gap-2 text-slate-500 hover:text-slate-800 text-sm font-medium transition-colors">
                 <ArrowLeft className="w-4 h-4" />
                 Back
-            </a>
+            </Link>
 
             <h1 className="text-2xl font-bold text-slate-900 mb-8">Account</h1>
             <div className="space-y-5">

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, TrendingUp, Users, Shield } from "lucide-react";
 import Counter from "@/components/App/Counter";
+import Link from "next/link";
 
 export default function Landing() {
     return (
@@ -11,14 +12,14 @@ export default function Landing() {
                 <span className="text-2xl font-black tracking-tight">
                     ledger<span className="text-indigo-500">.</span>
                 </span>
-                <a href="/auth">
+                <Link href="/auth">
                     <motion.button
                         whileTap={{ scale: 0.97 }}
                         className="text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors"
                     >
                         Sign in →
                     </motion.button>
-                </a>
+                </Link>
             </nav>
 
             <section className="max-w-6xl mx-auto px-6 sm:px-16 pt-24 pb-32 grid md:grid-cols-2 gap-16 items-center">
@@ -50,7 +51,7 @@ export default function Landing() {
                     </p>
 
                     <div className="flex flex-col sm:flex-row items-start gap-4">
-                        <a href="/auth">
+                        <Link href="/auth">
                             <motion.button
                                 whileHover={{ scale: 1.03, boxShadow: "0 8px 30px rgba(99,102,241,0.3)" }}
                                 whileTap={{ scale: 0.97 }}
@@ -59,7 +60,7 @@ export default function Landing() {
                                 Get started free
                                 <ArrowRight className="w-4 h-4" />
                             </motion.button>
-                        </a>
+                        </Link>
                         <p className="text-xs text-slate-400 self-center">Free forever · No credit card</p>
                     </div>
                 </motion.div>
@@ -191,7 +192,7 @@ export default function Landing() {
                 <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="relative z-10 px-6">
                     <h2 className="text-4xl sm:text-6xl font-black text-white mb-4">Ready to get started?</h2>
                     <p className="text-slate-400 mb-10 text-lg">Sync your first ledger in under a minute.</p>
-                    <a href="/auth">
+                    <Link href="/auth">
                         <motion.button
                             whileHover={{ scale: 1.04, boxShadow: "0 0 50px rgba(99,102,241,0.5)" }}
                             whileTap={{ scale: 0.97 }}
@@ -199,7 +200,7 @@ export default function Landing() {
                         >
                             Start for free <ArrowRight className="w-5 h-5" />
                         </motion.button>
-                    </a>
+                    </Link>
                 </motion.div>
             </section>
         </div>

@@ -1,27 +1,27 @@
 "use client";
 
-import { contactTable, profileTable, transactionTable, userTable } from "@/lib/schema";
-import { createContext, useContext } from "react";
+import { AppData, getAppData } from "@/lib/server";
+import { createContext, useContext, useEffect, useState } from "react";
 
-interface AppData {
-    user: typeof userTable.$inferSelect;
-    profile: typeof profileTable.$inferSelect;
-    transactions: typeof transactionTable.$inferSelect[];
-    contacts: typeof contactTable.$inferSelect[];
-}
-
-const AppContext = createContext<AppData | undefined>(undefined);
+const AppContext = createContext<AppData | null>(null);
 
 export function useAppContext(): AppData {
     return useContext(AppContext)!;
 }
 
-export default function AppContextProvider({ children, data }: Readonly<{
+export default function AppContextProvider({ children }: Readonly<{
     children: React.ReactNode,
-    data: AppData,
 }>) {
+    const [appData, setAppData] = useState<null | AppData>(null);
+
+    useEffect(() => {
+        getAppData().then(setAppData);
+    }, []);
+
+    if (!appData) return null;
+
     return (
-        <AppContext.Provider value={data}>
+        <AppContext.Provider value={appData}>
             {children}
         </AppContext.Provider>
     );

@@ -3,6 +3,8 @@
 import { User } from "lucide-react";
 import { useAppContext } from "./AppContext"; 
 import { usePathname } from "next/navigation"
+import Link from "next/link";
+
 
 export default function Navigation() {
     const { user } = useAppContext();
@@ -24,7 +26,7 @@ export default function Navigation() {
                     </button>
                 </a> */}
                 {path != settingsPath &&
-                    <a href={settingsPath}>
+                    <Link href={settingsPath}>
                         <div className="flex items-center gap-4 text-sm font-medium text-slate-400">
                             Settings
                             <div 
@@ -33,7 +35,7 @@ export default function Navigation() {
                                 <User className="w-4 h-4 text-slate-500" />
                             </div>
                         </div>
-                    </a>
+                    </Link>
                 }
             </div>
         </div>

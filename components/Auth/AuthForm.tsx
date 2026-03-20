@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Loader2, ArrowRight, EyeOff, Eye } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { login, signup, userExists } from "@/lib/auth";
+import Link from "next/link";
+
 
 const InputField = (props: React.ComponentProps<"input">) => {
     return (
@@ -113,10 +115,10 @@ export default function AuthForm() {
                 layout="position"
                 transition={{ layout: {duration: 0.2, ease: "easeOut"}}}    
             >
-                <a href="/" className="inline-flex items-center gap-1 text-slate-400 hover:text-slate-700 transition-colors text-xs mb-8">
+                <Link href="/" className="inline-flex items-center gap-1 text-slate-400 hover:text-slate-700 transition-colors text-xs mb-8">
                     <ArrowLeft className="w-3 h-3" />
                     Back to home
-                </a>
+                </Link>
 
                 <div className="mb-8">
                     <h1 className="text-3xl font-black tracking-tight text-slate-900">

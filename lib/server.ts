@@ -4,10 +4,45 @@ import { eq, or } from "drizzle-orm";
 import { db } from "./db";
 import { contactTable, profileTable, transactionTable, userTable } from "./schema";
 import { COLORS } from "./utils";
+import { getSession } from "./auth";
+
+export interface AppData {
+    user: typeof userTable.$inferSelect;
+    profile: typeof profileTable.$inferSelect;
+    transactions: typeof transactionTable.$inferSelect[];
+    contacts: typeof contactTable.$inferSelect[];
+}
+
+export async function getAppData(): Promise<AppData | null> {
+    const user = await getSession();
+    if (!user) return null;
+
+    const profile = await db.query.profileTable.findFirst({
+        where: eq(profileTable.linkedUserId, user.id)
+    });
+
+    if (!profile) return null;
+
+    const [transactions, contacts] = await Promise.all([
+        db.select()
+            .from(transactionTable)
+            .where(
+                or(
+                    eq(transactionTable.fromProfile, profile.id),
+                    eq(transactionTable.toProfile, profile.id)
+                )
+            ),
+        db.select()
+            .from(contactTable)
+            .where(eq(contactTable.owner, profile.id))
+    ]);
+
+    return { user, profile, transactions, contacts };
+}
 
 export async function createProfile(
     userId: string | null,
-    name: string, 
+    name: string,
 ): Promise<typeof profileTable.$inferSelect> {
     const [profile] = await db.insert(profileTable).values({
         linkedUserId: userId,
@@ -18,7 +53,7 @@ export async function createProfile(
 }
 
 export async function createContact(
-    profileId: number, 
+    profileId: number,
     name: string
 ): Promise<typeof contactTable.$inferSelect> {
     const link = await createProfile(null, name);
@@ -34,8 +69,8 @@ export async function createContact(
 }
 
 export async function updateContactSettings(
-    id: number, 
-    name: string, 
+    id: number,
+    name: string,
     color: string
 ) {
     await db.update(contactTable)
@@ -44,10 +79,10 @@ export async function updateContactSettings(
 }
 
 export async function addTransaction(
-    fromProfile: number, 
-    toProfile: number, 
-    type: string, 
-    amount: number, 
+    fromProfile: number,
+    toProfile: number,
+    type: string,
+    amount: number,
     description: string
 ) {
     await db.insert(transactionTable).values({

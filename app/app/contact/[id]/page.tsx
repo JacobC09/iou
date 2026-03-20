@@ -12,6 +12,7 @@ import { ArrowLeft, ChevronDown } from "lucide-react";
 import { redirect, useRouter } from "next/navigation";
 import { use } from "react";
 import { deleteContact } from "@/lib/server";
+import Link from "next/link";
 
 export default function Profile({ params }: {
     params: Promise<{ id: string }>
@@ -40,13 +41,13 @@ export default function Profile({ params }: {
 
     return (
         <div className="space-y-5 pb-[10vh]">
-            <a
+            <Link
                 href="/app"
                 className="flex items-center gap-2 text-slate-500 hover:text-slate-800 text-sm font-medium transition-colors"
             >
                 <ArrowLeft className="w-4 h-4" />
                 Back
-            </a>
+            </Link>
 
             <div className="relative overflow-hidden rounded-3xl px-6 pt-7 pb-6" style={{ background: "linear-gradient(135deg, #1e293b 0%, #312e81 100%)" }}>
                 <div className="absolute -top-10 -right-10 w-44 h-44 rounded-full blur-3xl opacity-25" style={{ background: isPositive ? "#10b981" : "#f97316" }} />
