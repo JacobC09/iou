@@ -1,10 +1,5 @@
 import AppContextProvider from "@/components/App/AppContext";
 import Navigation from "@/components/App/Navigation";
-import { contactTable, profileTable, transactionTable } from "@/lib/schema";
-import { db } from "@/lib/db";
-import { eq, or } from "drizzle-orm";
-import { getSession } from "@/lib/auth";
-import { redirect } from "next/navigation";
 
 export default async function Layout({
     children,

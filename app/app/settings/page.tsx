@@ -10,7 +10,6 @@ import { useAppContext } from "@/components/App/AppContext";
 import { getInitials } from "@/lib/utils";
 import { logout } from "@/lib/auth";
 import { updateUser } from "@/lib/server";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function Account() {
@@ -18,13 +17,11 @@ export default function Account() {
     const [name, setName] = useState(user.name ?? "");
     const [email, setEmail] = useState(user.email ?? "");
     const [saving, setSaving] = useState(false);
-    const router = useRouter();
     const initials = getInitials(user.name!);
     
     const saveProfile = async () => {
         setSaving(true);
         await updateUser(user.id, name, email);
-        router.refresh();
         setSaving(false);
     }
 

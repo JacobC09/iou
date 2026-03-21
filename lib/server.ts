@@ -2,7 +2,7 @@
 
 import { eq, or } from "drizzle-orm";
 import { db } from "./db";
-import { contactTable, profileTable, transactionTable, userTable } from "./schema";
+import { Contact, contactTable, Profile, profileTable, Transaction, transactionTable, userTable } from "./schema";
 import { COLORS } from "./utils";
 import { getSession } from "./auth";
 
@@ -14,9 +14,10 @@ export interface AppData {
 }
 
 export async function getAppData(): Promise<AppData | null> {
+    console.log("1");
     const user = await getSession();
     if (!user) return null;
-
+    
     const profile = await db.query.profileTable.findFirst({
         where: eq(profileTable.linkedUserId, user.id)
     });
@@ -37,13 +38,15 @@ export async function getAppData(): Promise<AppData | null> {
             .where(eq(contactTable.owner, profile.id))
     ]);
 
+    console.log("2");
+
     return { user, profile, transactions, contacts };
 }
 
 export async function createProfile(
     userId: string | null,
     name: string,
-): Promise<typeof profileTable.$inferSelect> {
+): Promise<Profile> {
     const [profile] = await db.insert(profileTable).values({
         linkedUserId: userId,
         name: name
@@ -55,7 +58,7 @@ export async function createProfile(
 export async function createContact(
     profileId: number,
     name: string
-): Promise<typeof contactTable.$inferSelect> {
+): Promise<Contact> {
     const link = await createProfile(null, name);
     const [contact] = await db.insert(contactTable).values({
         owner: profileId,
@@ -84,10 +87,12 @@ export async function addTransaction(
     type: string,
     amount: number,
     description: string
-) {
-    await db.insert(transactionTable).values({
+): Promise<Transaction> {
+    const [transaction] =  await db.insert(transactionTable).values({
         fromProfile, toProfile, type, amount, description
-    });
+    }).returning();
+    
+    return transaction;
 }
 
 export async function updateRecent(id: number) {

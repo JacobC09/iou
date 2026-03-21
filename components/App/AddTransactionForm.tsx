@@ -9,7 +9,8 @@ import { Check, Loader2 } from "lucide-react";
 import { contactTable } from "@/lib/schema";
 import { useAppContext } from "./AppContext";
 import { addTransaction, updateLastUpdated } from "@/lib/server";
-import { useRouter } from "next/navigation";
+import CollapsibleCard from "../Contact/CollapsibleCard";
+
 
 const TYPES = [
     { id: "they_owe", label: "They owe me", sublabel: "Liability", color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-300" },
@@ -21,8 +22,7 @@ const TYPES = [
 export default function AddTransactionForm({ contact }: {
     contact: typeof contactTable.$inferSelect
 }) {
-    const { profile } = useAppContext();
-    const router = useRouter();
+    const { profile, transactions, set } = useAppContext();
     const [transactionType, setTransactionType] = useState<TransactionType>("they_owe")
     const [submitting, setSubmitting] = useState(false);
     const [amount, setAmount] = useState("");
@@ -40,16 +40,15 @@ export default function AddTransactionForm({ contact }: {
         const to = me ? profile.id : contact.link;
 
         const cents: number = Math.round(parseFloat(amount) * 100);
-        await addTransaction(from, to, type, cents, desc);
+        const transaction = await addTransaction(from, to, type, cents, desc);
+        set({ transactions: [...transactions, transaction] })
         await updateLastUpdated(contact.id);
-        router.refresh();
         setSuccessful(true);
         setTimeout(() => setSuccessful(false), 800)
     }
 
     return (
-        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-5">
-            <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4">New Transaction</h2>
+        <CollapsibleCard title="New Transaction" defaultOpen={true} danger={false}>
             <form onSubmit={submit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-2">
                     {TYPES.map(t => (
@@ -95,9 +94,9 @@ export default function AddTransactionForm({ contact }: {
 
                 <Button
                     type="submit"
-                    disabled={submitting }
+                    disabled={submitting}
                     className={cn(
-                        "w-full h-10 rounded-xl font-semibold text-sm transition-all", 
+                        "w-full h-10 rounded-xl font-semibold text-sm transition-all",
                         successful ? "bg-emerald-600 hover:bg-emerald-600 opacity-80" : "bg-slate-900 hover:bg-slate-800"
                     )}
                 >
@@ -107,6 +106,6 @@ export default function AddTransactionForm({ contact }: {
                     }
                 </Button>
             </form>
-        </div>
+        </CollapsibleCard>
     );
 }

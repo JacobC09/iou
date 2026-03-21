@@ -5,7 +5,6 @@ import { useAppContext } from "./AppContext";
 import { usePathname } from "next/navigation"
 import Link from "next/link";
 
-
 export default function Navigation() {
     const { user } = useAppContext();
     const path = usePathname();

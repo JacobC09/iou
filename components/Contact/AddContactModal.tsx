@@ -10,11 +10,10 @@ import { createContact } from "@/lib/server"
 import { useAppContext } from "../App/AppContext";
 import { motion } from "framer-motion";
 
-
 export default function AddContactModal({ onSubmit }: {
     onSubmit: () => void,
 }) {
-    const { profile } = useAppContext();
+    const { profile, contacts, set } = useAppContext();
     const [name, setName] = useState("");
     const [submitting, setSubmitting] = useState(false);
     const [open, setOpen] = useState(false);
@@ -22,7 +21,8 @@ export default function AddContactModal({ onSubmit }: {
     const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
         setSubmitting(true);
-        await createContact(profile!.id, name.trim());
+        const contact = await createContact(profile!.id, name.trim());
+        set({ contacts: [...contacts, contact] })
         setSubmitting(false);
         setName("");
         onSubmit();

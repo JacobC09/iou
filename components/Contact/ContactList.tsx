@@ -1,14 +1,13 @@
-    "use client";
+"use client";
 
-    import { AnimatePresence } from "framer-motion";
-    import { ArrowUpDown, ChevronDown, ChevronUp, Search } from "lucide-react";
-    import { Input } from "@/components/ui/input";
-    import { useState } from "react";
-    import { useAppContext } from "@/components/App/AppContext"; 
-    import { cn, getBalance, getRelatedTransactions } from "@/lib/utils";
-    import Contact from "./Contact";
-    import AddContactModal from "./AddContactModal";
-    import { useRouter } from "next/navigation";
+import { AnimatePresence } from "framer-motion";
+import { ArrowUpDown, ChevronDown, ChevronUp, Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import { useAppContext } from "@/components/App/AppContext"; 
+import { cn, getBalance, getRelatedTransactions } from "@/lib/utils";
+import Contact from "./Contact";
+import AddContactModal from "./AddContactModal";
 import { searchArray } from "@/lib/sort";
 
     type SortMethod =  "recent" | "balance" | "alpha";
@@ -19,8 +18,6 @@ import { searchArray } from "@/lib/sort";
         const [search, setSearch] = useState("");
         const [sortMethod, setSortMethod] = useState<SortMethod>("recent");
         const [sortDir, setSortDir] = useState<SortDirection>("desc");
-
-        const router = useRouter();
 
         const toggleSort = (field: SortMethod) => {
             if (sortMethod === field) {

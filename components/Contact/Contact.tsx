@@ -6,14 +6,12 @@ import { getInitials } from "@/lib/utils";
 import { format } from "date-fns";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function Contact({ contact, balance }: {
     contact: typeof contactTable.$inferSelect,
     balance: number,
 }) {
-    const router = useRouter();
     const positive = balance >= 0;
     const color = contact.color ?? "#ffffff"
     const initials = getInitials(contact.name)
@@ -21,8 +19,9 @@ export default function Contact({ contact, balance }: {
     
     const onClick = async () => {
         await updateRecent(contact.id);
-        router.refresh();
     }
+
+    const isProd = process.env.NODE_ENV === "production";
 
     return (
         <motion.div
@@ -33,7 +32,7 @@ export default function Contact({ contact, balance }: {
             className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
             onClick={onClick}
         >
-            <Link onClick={onClick} href={`/app/contact/${encodeURIComponent(contact.id)}`}>
+            <a onClick={onClick} href={`/app/contact/${encodeURIComponent(contact.id)}`}>
                 <div className="flex items-center gap-3 px-4 py-4">
                     <div
                         className="w-11 h-11 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0 overflow-hidden border-2"
@@ -54,7 +53,7 @@ export default function Contact({ contact, balance }: {
                         <ChevronRight className="w-4 h-4 text-slate-300" />
                     </div>
                 </div>
-            </Link>
+            </a>
         </motion.div>
     );
 }

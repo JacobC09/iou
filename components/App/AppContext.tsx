@@ -3,9 +3,13 @@
 import { AppData, getAppData } from "@/lib/server";
 import { createContext, useContext, useEffect, useState } from "react";
 
-const AppContext = createContext<AppData | null>(null);
+type AppContextType = AppData & {
+    set: (updated: Partial<AppData>) => void;
+}
 
-export function useAppContext(): AppData {
+const AppContext = createContext<AppContextType | null>(null);
+
+export function useAppContext(): AppContextType {
     return useContext(AppContext)!;
 }
 
@@ -15,13 +19,13 @@ export default function AppContextProvider({ children }: Readonly<{
     const [appData, setAppData] = useState<null | AppData>(null);
 
     useEffect(() => {
-        getAppData().then(setAppData);
+        getAppData().then((data) => {setAppData(data); console.log(data)});
     }, []);
 
     if (!appData) return null;
 
     return (
-        <AppContext.Provider value={appData}>
+        <AppContext.Provider value={{ ...appData, set:(updated) => setAppData({ ...appData, ...updated }) }}>
             {children}
         </AppContext.Provider>
     );

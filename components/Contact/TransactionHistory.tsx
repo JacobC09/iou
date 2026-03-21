@@ -6,8 +6,8 @@ import { format } from "date-fns"
 import { useState } from "react";
 import { contactTable, transactionTable } from "@/lib/schema";
 import { cn, getTransactionType } from "@/lib/utils";
-import { useRouter } from "next/navigation";
 import { deleteTransaction } from "@/lib/server";
+import { useAppContext } from "../App/AppContext";
 
 type FilterType = "all" | "liability" | "payment"
 type SortMethod = "date" | "amount" | "type"
@@ -17,34 +17,35 @@ export default function TransactionHistory({ contact, transactions }: {
     contact: typeof contactTable.$inferSelect,
     transactions: typeof transactionTable.$inferSelect[]
 }) {
-    const router = useRouter();
-    const [filterType, setFilterType] = useState<FilterType>("all");
+    // const [filterType, setFilterType] = useState<FilterType>("all");
     const [sortMethod, setSortMethod] = useState<SortMethod>("date")
     const [sortDir, setSortDir] = useState<SortDir>("desc")
 
-    const toggleSort = (field: SortMethod) => {
-        if (sortMethod == field) {
-            setSortDir(sortDir == "asc" ? "desc" : "asc");
-        } else {
-            setSortMethod(field);
-            setSortDir("desc");
-        }
-    };
+    const { set } = useAppContext();
 
-    const SortBtn = ({ field, label }: { field: SortMethod, label: string }) => {
-        const active = sortMethod === field;
+    // const toggleSort = (field: SortMethod) => {
+    //     if (sortMethod == field) {
+    //         setSortDir(sortDir == "asc" ? "desc" : "asc");
+    //     } else {
+    //         setSortMethod(field);
+    //         setSortDir("desc");
+    //     }
+    // };
 
-        return (
-            <button
-                onClick={() => toggleSort(field)}
-                className={`flex items-center gap-1 text-xs px-2.5 py-1 rounded-lg transition-colors font-medium ${active ? "bg-slate-800 text-white" : "bg-white text-slate-500 hover:bg-slate-100 border border-slate-200"}`}
-            >
-                {label}
-                {active ? (sortDir === "asc" ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />)
-                    : <ArrowUpDown className="w-3 h-3 opacity-40" />}
-            </button>
-        );
-    };
+    // const SortBtn = ({ field, label }: { field: SortMethod, label: string }) => {
+    //     const active = sortMethod === field;
+
+    //     return (
+    //         <button
+    //             onClick={() => toggleSort(field)}
+    //             className={`flex items-center gap-1 text-xs px-2.5 py-1 rounded-lg transition-colors font-medium ${active ? "bg-slate-800 text-white" : "bg-white text-slate-500 hover:bg-slate-100 border border-slate-200"}`}
+    //         >
+    //             {label}
+    //             {active ? (sortDir === "asc" ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />)
+    //                 : <ArrowUpDown className="w-3 h-3 opacity-40" />}
+    //         </button>
+    //     );
+    // };
 
     return (
         <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-5">
@@ -152,7 +153,7 @@ export default function TransactionHistory({ contact, transactions }: {
                                             className="w-6 h-6 rounded-full bg-slate-100 hover:bg-red-100 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
                                             onClick={async () => {
                                                 await deleteTransaction(t.id);
-                                                router.refresh();
+                                                set({ transactions: transactions.filter((t2) => t2.id != t.id ) })
                                             }}
                                         >
                                             <Trash2 className="w-3 h-3 text-slate-400 hover:text-red-500" />

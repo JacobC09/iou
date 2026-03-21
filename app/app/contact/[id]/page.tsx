@@ -9,7 +9,7 @@ import TransactionHistory from "@/components/Contact/TransactionHistory";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { getBalance, getInitials, getRelatedTransactions } from "@/lib/utils";
 import { ArrowLeft, ChevronDown } from "lucide-react";
-import { redirect, useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { use } from "react";
 import { deleteContact } from "@/lib/server";
 import Link from "next/link";
@@ -18,14 +18,12 @@ export default function Profile({ params }: {
     params: Promise<{ id: string }>
 }) {
     const id = parseInt(decodeURIComponent(use(params).id));
-    const { contacts, transactions } = useAppContext();
+    const { contacts, transactions, set } = useAppContext();
     const contact = contacts.find(c => c.id === id);
-    const router = useRouter();
 
     if (!contact) {
-        redirect("/")
+        redirect("/");
     }
-
     const related = getRelatedTransactions(contact.owner, contact.link, transactions);
     const { net, totalOwed, totalIOwe } = getBalance(contact.owner, related);
     const initials = getInitials(contact.name);
@@ -35,12 +33,12 @@ export default function Profile({ params }: {
 
     const onDelete = async () => {
         await deleteContact(contact);
-        router.refresh();
+        set({ contacts: contacts.filter((c) => c.id != contact.id)})
         redirect("/app")   
     }
 
     return (
-        <div className="space-y-5 pb-[10vh]">
+        <div className="space-y-5 min-h-screen">
             <Link
                 href="/app"
                 className="flex items-center gap-2 text-slate-500 hover:text-slate-800 text-sm font-medium transition-colors"
