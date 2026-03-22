@@ -30,11 +30,11 @@ export default function Landing() {
                 >
                     <div className="inline-flex items-center gap-2 bg-indigo-50 border border-indigo-100 rounded-full px-4 py-1.5 text-xs text-indigo-600 font-semibold mb-8">
                         <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
-                        Personal finance, simplified
+                        Accounting, for your friends
                     </div>
 
                     <h1 className="text-5xl sm:text-6xl font-black tracking-tight leading-[1.05] mb-6 text-slate-900">
-                        Know exactly
+                        Track exactly
                         <span className="relative inline-block">
                             <span className="relative z-10 text-indigo-600">who owes who.</span>
                             <motion.div
@@ -47,7 +47,7 @@ export default function Landing() {
                     </h1>
 
                     <p className="text-slate-500 text-lg leading-relaxed mb-10 max-w-md">
-                        A shared ledger between you and your contacts. Track liabilities, record payments, and always know your net balance — no more awkward "do you remember that thing?" moments.
+                        A shared ledger between your friends. Record debts, and payments and view your balances.   
                     </p>
 
                     <div className="flex flex-col sm:flex-row items-start gap-4">
@@ -57,11 +57,11 @@ export default function Landing() {
                                 whileTap={{ scale: 0.97 }}
                                 className="inline-flex items-center gap-2 bg-slate-900 text-white font-bold px-8 py-4 rounded-2xl text-base transition-all shadow-lg"
                             >
-                                Get started free
+                                Get Started
                                 <ArrowRight className="w-4 h-4" />
                             </motion.button>
                         </Link>
-                        <p className="text-xs text-slate-400 self-center">Free forever · No credit card</p>
+                        <p className="text-xs text-slate-400 self-center">Completely Free Forever</p>
                     </div>
                 </motion.div>
 
@@ -82,9 +82,9 @@ export default function Landing() {
                                 </div>
                             </div>
                             {[
-                                { name: "Alex Chen", amount: "+$120", color: "#6366f1", tag: "owes you" },
-                                { name: "Sam Rivera", amount: "+$80", color: "#10b981", tag: "owes you" },
-                                { name: "Jordan Lee", amount: "-$47.50", color: "#f97316", tag: "you owe" },
+                                { name: "John Daly", amount: "+$120", color: "#6366f1", tag: "owes you" },
+                                { name: "Edmund Fitzgerald", amount: "+$80", color: "#10b981", tag: "owes you" },
+                                { name: "Arnold Palmer", amount: "-$47.50", color: "#f97316", tag: "you owe" },
                             ].map((p, i) => (
                                 <motion.div
                                     key={p.name}
@@ -107,16 +107,16 @@ export default function Landing() {
                         <motion.div
                             animate={{ y: [0, -8, 0] }}
                             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                            className="absolute -top-5 -right-5 bg-indigo-600 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg"
+                            className="absolute -top-6 -right-5 bg-indigo-600 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg"
                         >
-                            Synced in real-time ✓
+                            Synced between friends ✓
                         </motion.div>
                         <motion.div
                             animate={{ y: [0, 8, 0] }}
                             transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                            className="absolute -bottom-4 -left-4 bg-white border border-slate-200 text-slate-700 text-xs font-semibold px-4 py-2 rounded-full shadow-md"
+                            className="absolute -bottom-6 -left-4 bg-white border border-slate-200 text-slate-700 text-xs font-semibold px-4 py-2 rounded-full shadow-md"
                         >
-                            🎉 Balance settled with Alex
+                            Calculated balances ✓
                         </motion.div>
                     </div>
                 </motion.div>
@@ -130,15 +130,15 @@ export default function Landing() {
                         viewport={{ once: true }}
                         className="text-center mb-14"
                     >
-                        <h2 className="text-3xl sm:text-5xl font-black mb-4">Built for the real world</h2>
-                        <p className="text-slate-400 text-lg">Not for splitting bills at restaurants. For actual ongoing financial relationships.</p>
+                        <h2 className="text-3xl sm:text-5xl font-black mb-4">Built for friends</h2>
+                        <p className="text-slate-400 text-lg">Never forget a debt</p>
                     </motion.div>
 
                     <div className="grid sm:grid-cols-3 gap-6">
                         {[
-                            { icon: TrendingUp, color: "text-indigo-600", bg: "bg-indigo-50", title: "Running balance", desc: "See your live net balance with each person. No need to scroll through history." },
-                            { icon: Users, color: "text-emerald-600", bg: "bg-emerald-50", title: "Shared ledgers", desc: "Each connection is a synced ledger. Both parties can log transactions." },
-                            { icon: Shield, color: "text-slate-700", bg: "bg-slate-100", title: "No awkward math", desc: "Payments reduce the balance automatically. Clean, simple, accurate." },
+                            { icon: TrendingUp, color: "text-indigo-600", bg: "bg-indigo-50", title: "Running Balance", desc: "See your live net balance with each person. No need to scroll through history." },
+                            { icon: Users, color: "text-emerald-600", bg: "bg-emerald-50", title: "Account Linking", desc: "Each connection is a synced ledger. Both parties can log transactions." },
+                            { icon: Shield, color: "text-slate-700", bg: "bg-slate-100", title: "Transaction Tracking", desc: "Every transaction is tracked and easily viewable for each contact" },
                         ].map((f, i) => (
                             <motion.div
                                 key={f.title}
@@ -198,7 +198,7 @@ export default function Landing() {
                             whileTap={{ scale: 0.97 }}
                             className="inline-flex items-center gap-2 bg-white text-slate-900 font-bold px-10 py-4 rounded-2xl text-lg shadow-xl"
                         >
-                            Start for free <ArrowRight className="w-5 h-5" />
+                            Get Started <ArrowRight className="w-5 h-5" />
                         </motion.button>
                     </Link>
                 </motion.div>

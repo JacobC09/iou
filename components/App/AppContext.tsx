@@ -1,5 +1,6 @@
 "use client";
 
+import { User } from "@/lib/schema";
 import { AppData, getAppData } from "@/lib/server";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -13,13 +14,14 @@ export function useAppContext(): AppContextType {
     return useContext(AppContext)!;
 }
 
-export default function AppContextProvider({ children }: Readonly<{
+export default function AppContextProvider({ user, children }: Readonly<{
+    user: User,
     children: React.ReactNode,
 }>) {
     const [appData, setAppData] = useState<null | AppData>(null);
 
     useEffect(() => {
-        getAppData().then((data) => {setAppData(data); console.log(data)});
+        getAppData(user).then(setAppData);
     }, []);
 
     if (!appData) return null;

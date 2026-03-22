@@ -72,7 +72,6 @@ export async function signup(email: string, name: string, password: string): Pro
     error: string;
     affected: string[]
 }> {
-    console.log(email, name, password);
     try {
         if (!email || !password) return { success: false, affected: ["email", "password"], error: "Email and password are required" }
         if (password.length < 8) return { success: false, affected: ["password"], error: "Password must be at least 8 characters" }

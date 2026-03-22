@@ -2,7 +2,7 @@
 
 import { eq, or } from "drizzle-orm";
 import { db } from "./db";
-import { Contact, contactTable, Profile, profileTable, Transaction, transactionTable, userTable } from "./schema";
+import { Contact, contactTable, Profile, profileTable, Transaction, transactionTable, User, userTable } from "./schema";
 import { COLORS } from "./utils";
 import { getSession } from "./auth";
 
@@ -13,11 +13,7 @@ export interface AppData {
     contacts: typeof contactTable.$inferSelect[];
 }
 
-export async function getAppData(): Promise<AppData | null> {
-    console.log("1");
-    const user = await getSession();
-    if (!user) return null;
-    
+export async function getAppData(user: User): Promise<AppData | null> {
     const profile = await db.query.profileTable.findFirst({
         where: eq(profileTable.linkedUserId, user.id)
     });
@@ -37,8 +33,6 @@ export async function getAppData(): Promise<AppData | null> {
             .from(contactTable)
             .where(eq(contactTable.owner, profile.id))
     ]);
-
-    console.log("2");
 
     return { user, profile, transactions, contacts };
 }

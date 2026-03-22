@@ -81,11 +81,7 @@ import { searchArray } from "@/lib/sort";
         return (
             <>
 
-                <AddContactModal 
-                    onSubmit={() => {
-                        router.refresh();
-                    }}
-                />
+                <AddContactModal />
 
                 <div className="flex flex-col sm:flex-row gap-3 mb-5">
                     <div className="relative flex-1">

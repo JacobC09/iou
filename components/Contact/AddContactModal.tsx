@@ -10,9 +10,7 @@ import { createContact } from "@/lib/server"
 import { useAppContext } from "../App/AppContext";
 import { motion } from "framer-motion";
 
-export default function AddContactModal({ onSubmit }: {
-    onSubmit: () => void,
-}) {
+export default function AddContactModal() {
     const { profile, contacts, set } = useAppContext();
     const [name, setName] = useState("");
     const [submitting, setSubmitting] = useState(false);
@@ -25,7 +23,6 @@ export default function AddContactModal({ onSubmit }: {
         set({ contacts: [...contacts, contact] })
         setSubmitting(false);
         setName("");
-        onSubmit();
         setOpen(false);
     }
 

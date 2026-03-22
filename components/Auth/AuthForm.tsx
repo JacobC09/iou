@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Loader2, ArrowRight, EyeOff, Eye } from "lucide-react";
+import { ArrowLeft, Loader2, ArrowRight, EyeOff, Eye, ArrowUp } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { login, signup, userExists } from "@/lib/auth";
 import Link from "next/link";
@@ -147,12 +147,30 @@ export default function AuthForm() {
                                 autoFocus
                             />
  
-                            {hasAccount !== null && <motion.div
-                                className="h-px bg-slate-100 mb-6 mt-3"
-                                animate={{
-                                    width: [0, "100%"]
-                                }}
-                            />}
+                            {hasAccount !== null &&
+                                <div className="relative flex items-center justify-center mb-6 mt-3 w-full">
+                                    <motion.div
+                                        className="absolute h-px bg-slate-100"
+                                        animate={{
+                                            width: [0, "100%"]
+                                        }}
+                                        transition={{delay: 0.2}}
+                                    />
+                                    <motion.button
+                                        onClick={() => {
+                                            setHasAccount(null);
+                                            setFormValid(true);
+                                        }}
+                                        className="absolute bg-white px-3 mt-0.5"
+                                        animate={{
+                                            y: [5, 0]
+                                        }}
+                                        transition={{delay: 0.2}}
+                                    >
+                                        <ArrowUp className="text-slate-200"/>
+                                    </motion.button>
+                                </div>
+                            }
 
                             {/* Login */}
                             {hasAccount &&
