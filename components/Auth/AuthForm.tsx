@@ -161,6 +161,7 @@ export default function AuthForm() {
                                             setHasAccount(null);
                                             setFormValid(true);
                                         }}
+                                        type="button"
                                         className="absolute bg-white px-3 mt-0.5"
                                         animate={{
                                             y: [5, 0]

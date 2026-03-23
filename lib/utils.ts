@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { transactionTable } from "./schema"
+import { Transaction, transactionTable } from "./schema"
 
 export const COLORS = ["#1e293b","#6366f1","#ec4899","#f97316","#10b981","#3b82f6","#8b5cf6","#ef4444","#eab308","#14b8a6"];
 
@@ -12,7 +12,7 @@ export function getRelatedTransactions(a: number, b: number, transactions: typeo
     )
 }
 
-export function getTransactionType(relativeTo: number, t: typeof transactionTable.$inferSelect): TransactionType {
+export function getTransactionType(relativeTo: number, t: Transaction): TransactionType {
     if (t.type == "paid") {
         return t.fromProfile == relativeTo ? "i_paid" : "they_paid";
     } else {
