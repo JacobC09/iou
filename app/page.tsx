@@ -130,7 +130,7 @@ export default function Landing() {
                         viewport={{ once: true }}
                         className="text-center mb-14"
                     >
-                        <h2 className="text-3xl sm:text-5xl font-black mb-4">Built for friends</h2>
+                        <h2 className="text-3xl sm:text-5xl font-black mb-4">Built for friends.</h2>
                         <p className="text-slate-400 text-lg">Never forget a debt</p>
                     </motion.div>
 
